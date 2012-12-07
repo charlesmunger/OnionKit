@@ -264,18 +264,18 @@ public class StrongTrustManager implements X509TrustManager {
                 }
                 
             }
-            
-            if (mVerifyRoot && (!verifiedRootCA))
-            {
-                String errMsg = mContext.getString(R.string.error_could_not_find_root_ca_issuer_certificate_in_chain);
-                
-                Log.e(TAG,errMsg);
-                
-                showCertMessage(errMsg,
-                        x509Certificates[0].getIssuerDN().getName(), x509Certificates[0], null);
-
-                throw new CertificateException(errMsg);
-            }
+            //Removed because our cert is not signed by any root CA.
+//            if (mVerifyRoot && (!verifiedRootCA))
+//            {
+//                String errMsg = mContext.getString(R.string.error_could_not_find_root_ca_issuer_certificate_in_chain);
+//                
+//                Log.e(TAG,errMsg);
+//                
+//                showCertMessage(errMsg,
+//                        x509Certificates[0].getIssuerDN().getName(), x509Certificates[0], null);
+//
+//                throw new CertificateException(errMsg);
+//            }
         }
         else if (mExpiredCheck)
         {    
