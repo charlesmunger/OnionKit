@@ -33,6 +33,7 @@ import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 import java.security.cert.CertificateEncodingException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
@@ -109,6 +110,7 @@ public class StrongTrustManager implements X509TrustManager {
 	 * @throws IOException
 	 * @throws CertificateException
 	 * @throws NoSuchAlgorithmException
+	 * @throws  
 	 */
 	public StrongTrustManager(Context context) throws KeyStoreException,
 			NoSuchAlgorithmException, CertificateException, IOException {
@@ -117,12 +119,17 @@ public class StrongTrustManager implements X509TrustManager {
 
 		InputStream in = null;
 
-		mTrustStore = KeyStore.getInstance(TRUSTSTORE_TYPE);
+		try {
+			mTrustStore = KeyStore.getInstance(TRUSTSTORE_TYPE, "SC");
+			mPinnedStore = KeyStore.getInstance(TRUSTSTORE_TYPE, "SC");
+		} catch (NoSuchProviderException e) {
+			Log.wtf("onionkit", "No spongy castle!!!");
+			e.printStackTrace();
+		}
 		// load our bundled cacerts from raw assets
 		in = mContext.getResources().openRawResource(R.raw.cacerts);
 		mTrustStore.load(in, TRUSTSTORE_PASSWORD.toCharArray());
 
-		mPinnedStore = KeyStore.getInstance(TRUSTSTORE_TYPE);
 		// load our bundled cacerts from raw assets
 		in = mContext.getResources().openRawResource(R.raw.pinnedcacerts);
 		mPinnedStore.load(in, TRUSTSTORE_PASSWORD.toCharArray());
