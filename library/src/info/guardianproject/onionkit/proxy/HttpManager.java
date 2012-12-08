@@ -77,7 +77,7 @@ public class HttpManager {
 			value = (String)props.get(key);
 			uriBuilder.append(key);
 			uriBuilder.append('=');
-			uriBuilder.append(java.net.URLEncoder.encode(value));
+			uriBuilder.append(java.net.URLEncoder.encode(value, "UTF-8"));
 			uriBuilder.append('&');
 			
 		}
