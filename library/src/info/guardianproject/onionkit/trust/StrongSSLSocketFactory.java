@@ -21,14 +21,13 @@ import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 
-import org.apache.http.conn.ConnectTimeoutException;
-import org.apache.http.conn.scheme.HostNameResolver;
-import org.apache.http.conn.scheme.LayeredSchemeSocketFactory;
-import org.apache.http.params.HttpParams;
-
 import android.content.Context;
+import ch.boye.httpclientandroidlib.conn.ConnectTimeoutException;
+import ch.boye.httpclientandroidlib.conn.scheme.HostNameResolver;
+import ch.boye.httpclientandroidlib.conn.scheme.LayeredSchemeSocketFactory;
+import ch.boye.httpclientandroidlib.params.HttpParams;
 
-public class StrongSSLSocketFactory extends org.apache.http.conn.ssl.SSLSocketFactory implements LayeredSchemeSocketFactory
+public class StrongSSLSocketFactory extends ch.boye.httpclientandroidlib.conn.ssl.SSLSocketFactory implements LayeredSchemeSocketFactory
 {
 	
 	private SSLSocketFactory mFactory = null;
@@ -44,7 +43,7 @@ public class StrongSSLSocketFactory extends org.apache.http.conn.ssl.SSLSocketFa
     
 	public StrongSSLSocketFactory (Context context) throws KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, CertificateException, IOException
     {
-    	super(null);
+    	super((KeyStore)null);
  
         SSLContext sslContext = SSLContext.getInstance ("TLS");
         StrongTrustManager tmStrong = new StrongTrustManager (context);

@@ -18,35 +18,28 @@ import info.guardianproject.onionkit.trust.StrongHttpsClient;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpHost;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.conn.params.ConnRoutePNames;
-import org.apache.http.entity.mime.MultipartEntity;
-import org.apache.http.entity.mime.content.FileBody;
-import org.apache.http.entity.mime.content.StringBody;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.protocol.HTTP;
 
 import android.content.Context;
 import android.util.Log;
+import ch.boye.httpclientandroidlib.HttpEntity;
+import ch.boye.httpclientandroidlib.HttpHost;
+import ch.boye.httpclientandroidlib.HttpResponse;
+import ch.boye.httpclientandroidlib.HttpStatus;
+import ch.boye.httpclientandroidlib.NameValuePair;
+import ch.boye.httpclientandroidlib.client.HttpClient;
+import ch.boye.httpclientandroidlib.client.entity.UrlEncodedFormEntity;
+import ch.boye.httpclientandroidlib.client.methods.HttpGet;
+import ch.boye.httpclientandroidlib.client.methods.HttpPost;
+import ch.boye.httpclientandroidlib.conn.params.ConnRoutePNames;
+import ch.boye.httpclientandroidlib.impl.client.DefaultHttpClient;
+import ch.boye.httpclientandroidlib.message.BasicNameValuePair;
+import ch.boye.httpclientandroidlib.protocol.HTTP;
 
 /*
  * General HTTP handler class
@@ -176,50 +169,6 @@ public class HttpManager {
 			content.close(); // this will also close the connection
 			
 			return sbResponse.toString();
-		}
-		
-		
-		
-	}
-	
-	
-	public static String uploadFile (String serviceEndpoint, Properties properties, String fileParam, String file) throws Exception
-	{
-
-
-		HttpClient httpClient = new DefaultHttpClient();
-
-		HttpPost request = new HttpPost(serviceEndpoint);
-		MultipartEntity entity = new MultipartEntity();
-			
-		Iterator<Map.Entry<Object,Object>> i = properties.entrySet().iterator();
-		while (i.hasNext())
-		{
-		       Map.Entry<Object,Object> entry = (Map.Entry<Object,Object>) i.next();
-		       String key = (String) entry.getKey();
-		       String val = (String) entry.getValue();
-		       entity.addPart(key, new StringBody(val));
-		     
-		 }
-		File upload = new File(file);
-		Log.i("httpman","upload file (" + upload.getAbsolutePath() + ") size=" + upload.length());
-		
-		entity.addPart(fileParam, new FileBody(upload));
-		request.setEntity(entity);
-		
-		
-		HttpResponse response = httpClient.execute(request);
-		int status = response.getStatusLine().getStatusCode();
-
-		if (status != HttpStatus.SC_OK) {
-	
-		} else {
-			
-		}
-
-		return response.toString();
-		
-	}
-	
-	
+		}		
+	}	
 }
